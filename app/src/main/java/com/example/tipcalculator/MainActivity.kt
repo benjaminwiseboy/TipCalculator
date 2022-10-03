@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
 private fun calculateTip(
     amount: Double,
-    tipPercent: Double = 15.0
+    tipPercent: Double
 ) : String {
     val tip = tipPercent / 100 * amount
     return NumberFormat.getCurrencyInstance().format(tip)
@@ -61,8 +61,10 @@ fun DefaultPreview() {
 @Composable
 fun TipTimeScreen() {
     var amountInput by remember { mutableStateOf("") }
+    var tipPercentInput by remember { mutableStateOf("") }
     val amount = amountInput.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount)
+    val tipPercent = tipPercentInput.toDoubleOrNull() ?: 15.0
+    val tip = calculateTip(amount, tipPercent)
 
     Column(
         modifier = Modifier.padding(32.dp),
@@ -76,6 +78,7 @@ fun TipTimeScreen() {
         Spacer(Modifier.height(16.dp))
         EditNumberField(value = amountInput,
                         onValueChange = { amountInput = it })
+        Spacer(Modifier.height(16.dp))
         Spacer(Modifier.height(24.dp))
         Text(
             text = stringResource(R.string.tip_amount, tip),
@@ -93,6 +96,18 @@ fun EditNumberField(value: String,
         value = value,
         onValueChange = onValueChange,
         label = { Text(stringResource(R.string.cost_of_service)) },
+        modifier = Modifier.fillMaxWidth(),
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+    )
+}
+
+@Composable
+fun EditTipPercentageField(value: String, onValueChange: (String) -> Unit){
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(stringResource(R.string.tip_percentage)) },
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
