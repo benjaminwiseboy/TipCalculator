@@ -79,6 +79,8 @@ fun TipTimeScreen() {
         EditNumberField(value = amountInput,
                         onValueChange = { amountInput = it })
         Spacer(Modifier.height(16.dp))
+        EditTipPercentageField(value = tipPercentInput, onValueChange = {tipPercentInput = it})
+
         Spacer(Modifier.height(24.dp))
         Text(
             text = stringResource(R.string.tip_amount, tip),
@@ -94,8 +96,7 @@ fun EditNumberField(value: String,
                     onValueChange: (String) -> Unit) {
     TextField(
         value = value,
-        onValueChange = onValueChange,
-        label = { Text(stringResource(R.string.cost_of_service)) },
+        onValueChange = onValueChange, label = { Text(stringResource(R.string.cost_of_service)) },
         modifier = Modifier.fillMaxWidth(),
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
